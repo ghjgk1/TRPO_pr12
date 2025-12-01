@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 using TRPO_pr12.Service;
 
-namespace TRPO_pr12.Validations
+namespace TRPO_pr12.Validators
 {
     internal class EmailValidation : ValidationRule
     {
@@ -19,15 +14,17 @@ namespace TRPO_pr12.Validations
             
             string input = (value ?? "").ToString().Trim();
 
+            if (input == String.Empty)
+                return new ValidationResult(false, "Поле должно быть заполнено");
+
+            if (!input.Contains('@'))
+                return new ValidationResult(false, "Должен содержать @");
+
             foreach (var user in _service.Users)
             {
                 if (user.Email == input)
                     return new ValidationResult(false, "Email не уникален");
             }
-
-
-            if (!input.Contains('@'))
-                return new ValidationResult(false, "Должен содержать @");
 
             return ValidationResult.ValidResult;
         }

@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TRPO_pr12.Pages"
-      xmlns:validations="clr-namespace:TRPO_pr12.Validations"
+      xmlns:validators="clr-namespace:TRPO_pr12.Validators"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="UserFormPage">
@@ -13,13 +13,12 @@
         <StackPanel>
             <StackPanel>
                 <Label>Логин</Label>
-                <TextBox Text="{Binding Login}"/>
                 <StackPanel>
                     <TextBox x:Name="login">
                         <TextBox.Text >
                             <Binding Path="Login">
                                 <Binding.ValidationRules>
-                                    <validations:LoginValidation/>
+                                    <validators:LoginValidation/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -27,7 +26,7 @@
                     <ItemsControl ItemsSource="{Binding ElementName=login, Path=(Validation.Errors)}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ErrorContent}"/>
+                                <TextBlock Text="{Binding ErrorContent}" Style="{StaticResource message}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -35,37 +34,56 @@
             </StackPanel>
             <StackPanel>
                 <Label>Имя пользователя</Label>
-                <TextBox Text="{Binding Name}"/>
-            </StackPanel>
-            <StackPanel>
-                <Label>Электронная почта                </Label>
                 <StackPanel>
-                    <TextBox x:Name="email">
+                    <TextBox x:Name="name">
                         <TextBox.Text >
-                            <Binding Path="Email">
+                            <Binding Path="Name">
                                 <Binding.ValidationRules>
-                                    <validations:EmailValidation/>
+                                    <validators:EmptyValidation/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <ItemsControl ItemsSource="{Binding ElementName=email, Path=(Validation.Errors)}">
+                    <ItemsControl ItemsSource="{Binding ElementName=name, Path=(Validation.Errors)}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ErrorContent}"/>
+                                <TextBlock Text="{Binding ErrorContent}" Style="{StaticResource message}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
             </StackPanel>
             <StackPanel>
-                <Label>Пароль пользователя                </Label>
+                <Label>Электронная почта
+                </Label>
+                <StackPanel>
+                    <TextBox x:Name="email">
+                        <TextBox.Text >
+                            <Binding Path="Email">
+                                <Binding.ValidationRules>
+                                    <validators:EmailValidation/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <ItemsControl ItemsSource="{Binding ElementName=email, Path=(Validation.Errors)}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" Style="{StaticResource message}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <Label>Пароль пользователя
+                </Label>
                 <StackPanel>
                     <TextBox x:Name="password">
                         <TextBox.Text >
                             <Binding Path="Password">
                                 <Binding.ValidationRules>
-                                    <validations:PasswordValidation/>
+                                    <validators:PasswordValidation/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -73,7 +91,7 @@
                     <ItemsControl ItemsSource="{Binding ElementName=password, Path=(Validation.Errors)}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ErrorContent}"/>
+                                <TextBlock Text="{Binding ErrorContent}" Style="{StaticResource message}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -83,10 +101,10 @@
                 <Label>Дата и время создания пользователя</Label>
                 <StackPanel>
                     <TextBox x:Name="date">
-                        <TextBox.Text >
+                        <TextBox.Text>
                             <Binding Path="CreatedAt">
                                 <Binding.ValidationRules>
-                                    <validations:DateValidation/>
+                                    <validators:DateValidation/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
@@ -94,11 +112,12 @@
                     <ItemsControl ItemsSource="{Binding ElementName=date, Path=(Validation.Errors)}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ErrorContent}"/>
+                                <TextBlock Text="{Binding ErrorContent}" Style="{StaticResource message}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
+
             </StackPanel>
             <StackPanel>
                 <Button Click="save">Сохранить в БД</Button>

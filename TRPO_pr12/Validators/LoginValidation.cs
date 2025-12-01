@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 using TRPO_pr12.Service;
 
-namespace TRPO_pr12.Validations
+namespace TRPO_pr12.Validators
 {
 
     internal class LoginValidation : ValidationRule
@@ -20,14 +15,17 @@ namespace TRPO_pr12.Validations
 
             string input = (value ?? "").ToString().Trim();
 
+            if (input == String.Empty)
+                return new ValidationResult(false, "Поле должно быть заполнено");
+
+            if (input.Length < 5)
+                return new ValidationResult(false, "Длина не меньше 5 символов");
+
             foreach (var user in _service.Users)
             {
                 if (user.Login == input)
                     return new ValidationResult(false, "Логин не уникален");
             }
-
-            if (input.Length <= 5)
-                return new ValidationResult(false, "Длина не меньше 5 символов");
 
             return ValidationResult.ValidResult;
         }

@@ -36,12 +36,34 @@ namespace TRPO_pr12.Pages
             DataContext = _user;
         }
 
+        void UpdateValidation()
+        {
+            login.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            name.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            password.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            email.GetBindingExpression(TextBox.TextProperty)?.UpdateSource(); 
+            date.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+        }
+
+        bool ValidateForm()
+        {
+            UpdateValidation();
+
+            bool hasError = Validation.GetHasError(login) || Validation.GetHasError(name) || Validation.GetHasError(password) || Validation.GetHasError(email) || Validation.GetHasError(date);
+
+            return !hasError;
+        }
+
         private void save(object sender, RoutedEventArgs e)
         {
+            if (!ValidateForm())
+                return;
+
             if (isEdit)
                 _service.Commit();
             else
                 _service.Add(_user);
+
             NavigationService.GoBack();
         }
 
