@@ -56,13 +56,13 @@ namespace TRPO_pr12.Pages
 
         private void save(object sender, RoutedEventArgs e)
         {
-            if (!ValidateForm())
-                return;
-
             if (isEdit)
                 _service.Commit();
             else
-                _service.Add(_user);
+                if (!ValidateForm())
+                    return;
+                else 
+                    _service.Add(_user);
 
             NavigationService.GoBack();
         }
